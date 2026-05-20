@@ -1,0 +1,87 @@
+name: Sync Docker Images to Aliyun ACR
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "images.yaml"
+      - ".github/workflows/sync-images.yaml"
+  workflow_dispatch:
+
+env:
+  ALIYUN_REGISTRY: registry.cn-hangzhou.aliyuncs.com
+  ALIYUN_NAMESPACE: tmdaq
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Parse images.yaml
+        id: set-matrix
+        run: |
+          MATRIX=$(python3 -c "
+          import yaml, json
+          with open('images.yaml') as f:
+              data = yaml.safe_load(f)
+          images = [{'source': img} for img in data['images']]
+          print(json.dumps({'include': images}))
+          ")
+          echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
+
+  sync:
+    needs: prepare
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+      fail-fast: false
+    steps:
+      - name: Log in to Aliyun ACR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ALIYUN_REGISTRY }}
+          username: ${{ secrets.ALIYUN_REGISTRY_USER }}
+          password: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+
+      - name: Pull and push image
+        id: sync
+        run: |
+          SOURCE="${{ matrix.source }}"
+
+          echo "==> Pulling: $SOURCE"
+          docker pull "$SOURCE"
+
+          # Parse image name and tag
+          if [[ "$SOURCE" == *":"* ]]; then
+            IMAGE_NAME="${SOURCE%:*}"
+            TAG="${SOURCE##*:}"
+          else
+            IMAGE_NAME="$SOURCE"
+            TAG="latest"
+          fi
+
+          TARGET="${ALIYUN_REGISTRY}/${ALIYUN_NAMESPACE}/${IMAGE_NAME}:${TAG}"
+
+          echo "==> Tagging: $TARGET"
+          docker tag "$SOURCE" "$TARGET"
+
+          echo "==> Pushing: $TARGET"
+          docker push "$TARGET"
+
+          echo "target=$TARGET" >> "$GITHUB_OUTPUT"
+          echo "==> Done: $TARGET"
+
+      - name: Notify
+        if: success()
+        run: |
+          curl -s -X POST "https://api.day.app/push" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{
+              "title": "【public-docker-repo：镜像同步完成】",
+              "body": "源: ${{ matrix.source }}\n目标: ${{ steps.sync.outputs.target }}",
+              "group": "docker-sync",
+              "device_key": "${{ secrets.BARK_DEVICE_KEY }}"
+            }'
