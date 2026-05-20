@@ -63,10 +63,11 @@ jobs:
             TAG="latest"
           fi
 
-          # Replace dots with underscores in image name for ACR compatibility
-          # ghcr.io/astral-sh/uv → ghcr_io/astral-sh/uv
+          # Replace dots and slashes with underscores for ACR single-level repo name
+          # ghcr.io/astral-sh/uv → ghcr_io_astral-sh_uv
           # python → python
           IMAGE_NAME="${IMAGE_NAME//./_}"
+          IMAGE_NAME="${IMAGE_NAME//\//_}"
 
           TARGET="${ALIYUN_REGISTRY}/${ALIYUN_NAMESPACE}/${IMAGE_NAME}:${TAG}"
 
