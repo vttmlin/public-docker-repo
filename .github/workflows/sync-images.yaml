@@ -63,10 +63,10 @@ jobs:
             TAG="latest"
           fi
 
-          # Strip registry prefix (e.g. ghcr.io/, docker.io/) for ACR repo name
-          # ghcr.io/astral-sh/uv → astral-sh/uv
+          # Replace dots with underscores in image name for ACR compatibility
+          # ghcr.io/astral-sh/uv → ghcr_io/astral-sh/uv
           # python → python
-          IMAGE_NAME="${IMAGE_NAME#*/}"
+          IMAGE_NAME="${IMAGE_NAME//./_}"
 
           TARGET="${ALIYUN_REGISTRY}/${ALIYUN_NAMESPACE}/${IMAGE_NAME}:${TAG}"
 
