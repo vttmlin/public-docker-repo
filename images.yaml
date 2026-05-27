@@ -1,3 +1,4 @@
 images:
-  - ghcr.io/astral-sh/uv:python3.13-bookworm
-  - python:3.13-slim-bookworm
+  # - ghcr.io/astral-sh/uv:python3.13-bookworm
+  # - python:3.13-slim-bookworm
+  - nginx
