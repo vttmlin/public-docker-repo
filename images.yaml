@@ -2,3 +2,5 @@ images:
   # - ghcr.io/astral-sh/uv:python3.13-bookworm
   # - python:3.13-slim-bookworm
   - nginx
+  - registry.k8s.io/flannel/flannel-cni-plugin:v1.6.2-flannel1
+  - registry.k8s.io/flannel/flannel:v0.26.5
