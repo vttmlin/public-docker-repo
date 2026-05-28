@@ -4,4 +4,5 @@ images:
   # - nginx
   # - registry.k8s.io/flannel/flannel-cni-plugin:v1.6.2-flannel1
   # - registry.k8s.io/flannel/flannel:v0.26.5
-  - mysql:8.4.9
+  # - mysql:8.4.9 # lts 长期稳定版本
+  - redis:6.2-alpine # lts 长期稳定版本
