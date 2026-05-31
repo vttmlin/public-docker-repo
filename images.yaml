@@ -7,4 +7,5 @@ images:
   # - mysql:8.4.9 # lts 长期稳定版本
   # - redis:6.2-alpine # lts 长期稳定版本
   # - redis:7.2-alpine # lts 长期稳定版本
-  - nats:2.14.1-alpine
+  # - nats:2.14.1-alpine
+  - nginx:1.27-alpine
