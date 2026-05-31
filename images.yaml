@@ -8,5 +8,7 @@ images:
   # - redis:6.2-alpine # lts 长期稳定版本
   # - redis:7.2-alpine # lts 长期稳定版本
   # - nats:2.14.1-alpine
-  - nginx:1.27-alpine
-  - minio/minio:RELEASE.2025-04-22T22-12-26Z
+  # - nginx:1.27-alpine
+  # - minio/minio:RELEASE.2025-04-22T22-12-26Z
+  - registry.k8s.io/ingress-nginx/controller:v1.12.0
+  - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
