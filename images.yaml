@@ -10,5 +10,7 @@ images:
   # - nats:2.14.1-alpine
   # - nginx:1.27-alpine
   # - minio/minio:RELEASE.2025-04-22T22-12-26Z
-  - registry.k8s.io/ingress-nginx/controller:v1.12.0
-  - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
+  # - registry.k8s.io/ingress-nginx/controller:v1.12.0
+  # - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
+  - jonnyan404/zerotier-moon:latest
+  - jc21/nginx-proxy-manager:latest
