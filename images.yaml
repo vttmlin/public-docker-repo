@@ -14,4 +14,6 @@ images:
   # - registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
   # - jonnyan404/zerotier-moon:latest
   # - jc21/nginx-proxy-manager:latest
-  - quay.io/jupyter/datascience-notebook:ubuntu-24.04
+  # - quay.io/jupyter/datascience-notebook:ubuntu-24.04
+  - postgres:17-alpine
+  - sonarqube:community
