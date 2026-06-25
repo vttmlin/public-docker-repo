@@ -15,5 +15,6 @@ images:
   # - jonnyan404/zerotier-moon:latest
   # - jc21/nginx-proxy-manager:latest
   # - quay.io/jupyter/datascience-notebook:ubuntu-24.04
-  - postgres:17-alpine
-  - sonarqube:community
+  # - postgres:17-alpine
+  # - sonarqube:community
+  - sonarsource/sonar-scanner-cli
