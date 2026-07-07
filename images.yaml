@@ -17,4 +17,5 @@ images:
   # - quay.io/jupyter/datascience-notebook:ubuntu-24.04
   # - postgres:17-alpine
   # - sonarqube:community
-  - sonarsource/sonar-scanner-cli
+  # - sonarsource/sonar-scanner-cli
+  - cloakhq/cloakbrowser:0.4.8
