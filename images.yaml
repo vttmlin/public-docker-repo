@@ -19,4 +19,5 @@ images:
   # - sonarqube:community
   # - sonarsource/sonar-scanner-cli
   # - cloakhq/cloakbrowser:0.4.8
-  - authentik/server:2026.5.4
+  # - authentik/server:2026.5.4
+  - busybox:1.38.0
