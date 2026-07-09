@@ -12,6 +12,9 @@ env:
   ALIYUN_REGISTRY: registry.cn-hangzhou.aliyuncs.com
   ALIYUN_NAMESPACE: tmdaq
 
+permissions:
+  contents: write
+
 jobs:
   prepare:
     runs-on: ubuntu-latest
@@ -80,6 +83,26 @@ jobs:
           echo "target=$TARGET" >> "$GITHUB_OUTPUT"
           echo "==> Done: $TARGET"
 
+          # Build a per-job history entry file (uploaded as an artifact for commit-history to aggregate).
+          # Use Beijing time (UTC+8) so timestamps line up with the existing history.jsonl.
+          PULL_TIME=$(TZ='Asia/Shanghai' date +"%Y-%m-%d %H:%M:%S")
+          SAFE_NAME=$(echo "$SOURCE" | tr '/:.' '_')
+          ARTIFACT_NAME="history-${SAFE_NAME}"
+
+          mkdir -p history-entries
+          printf '{"time":"%s","name":"%s","proxy_name":"%s"}\n' \
+            "$PULL_TIME" "$SOURCE" "$TARGET" \
+            > "history-entries/${SAFE_NAME}.json"
+
+          echo "artifact_name=$ARTIFACT_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Upload history entry
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.sync.outputs.artifact_name }}
+          path: history-entries/*.json
+
       - name: Notify
         if: success()
         run: |
@@ -91,3 +114,83 @@ jobs:
               "group": "docker-sync",
               "device_key": "${{ secrets.BARK_DEVICE_KEY }}"
             }'
+
+  commit-history:
+    needs: sync
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Download per-job history entries
+        uses: actions/download-artifact@v4
+        with:
+          path: history-entries
+          pattern: history-*
+          merge-multiple: true
+
+      - name: Append new entries to history.jsonl
+        run: |
+          python3 << 'PYEOF'
+          import json
+          import os
+          import glob
+
+          history_file = 'history.jsonl'
+          existing_proxies = set()
+
+          if os.path.exists(history_file):
+              with open(history_file, 'r', encoding='utf-8') as f:
+                  for line in f:
+                      line = line.strip()
+                      if not line:
+                          continue
+                      try:
+                          existing_proxies.add(json.loads(line)['proxy_name'])
+                      except Exception:
+                          pass
+
+          new_lines = []
+          for entry_file in sorted(glob.glob('history-entries/*.json')):
+              with open(entry_file, 'r', encoding='utf-8') as f:
+                  content = f.read().strip()
+              if not content:
+                  continue
+              try:
+                  entry = json.loads(content)
+              except Exception as e:
+                  print(f"Skipping {entry_file}: {e}")
+                  continue
+              if entry['proxy_name'] in existing_proxies:
+                  print(f"Already recorded: {entry['proxy_name']}")
+                  continue
+              new_lines.append(json.dumps(entry, ensure_ascii=False))
+              existing_proxies.add(entry['proxy_name'])
+
+          if new_lines:
+              with open(history_file, 'a', encoding='utf-8') as f:
+                  for line in new_lines:
+                      f.write(line + '\n')
+              print(f"Appended {len(new_lines)} new entries")
+          else:
+              print("No new entries to append")
+          PYEOF
+
+      - name: Commit and push history.jsonl
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Pick up any concurrent commits that landed on the branch while this
+          # job was running (rare for this repo, but cheap insurance).
+          git pull --rebase --autostash origin "${{ github.ref_name }}" || true
+
+          git add history.jsonl
+          if git diff --staged --quiet; then
+            echo "No changes to history.jsonl"
+          else
+            git commit -m "chore: record synced images in history.jsonl"
+            git push
+          fi
