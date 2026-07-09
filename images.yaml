@@ -18,4 +18,5 @@ images:
   # - postgres:17-alpine
   # - sonarqube:community
   # - sonarsource/sonar-scanner-cli
-  - cloakhq/cloakbrowser:0.4.8
+  # - cloakhq/cloakbrowser:0.4.8
+  - authentik/server:2026.5.4
