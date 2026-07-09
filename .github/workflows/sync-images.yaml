@@ -176,6 +176,24 @@ jobs:
               print(f"Appended {len(new_lines)} new entries")
           else:
               print("No new entries to append")
+
+          # Normalize: ensure each entry is on its own line and uses compact JSON
+          # (no spaces after colons). Guard against an existing file that lacked
+          # a trailing newline, which would otherwise glue two entries together.
+          normalized = []
+          with open(history_file, 'r', encoding='utf-8') as f:
+              for raw in f:
+                  raw = raw.strip()
+                  if not raw:
+                      continue
+                  try:
+                      normalized.append(json.dumps(json.loads(raw), ensure_ascii=False, separators=(',', ':')))
+                  except Exception:
+                      pass
+          with open(history_file, 'w', encoding='utf-8') as f:
+              for line in normalized:
+                  f.write(line + '\n')
+          print(f"history.jsonl normalized to {len(normalized)} entries")
           PYEOF
 
       - name: Commit and push history.jsonl
