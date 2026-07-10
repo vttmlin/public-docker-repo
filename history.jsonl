@@ -20,3 +20,4 @@
 {"time":"2026-07-08 02:14:19","name":"cloakhq/cloakbrowser:0.4.8","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/cloakhq_cloakbrowser:0.4.8"}
 {"time":"2026-07-09 23:30:06","name":"authentik/server:2026.5.4","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/authentik_server:2026.5.4"}
 {"time":"2026-07-09 23:35:35","name":"busybox:1.38.0","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/busybox:1.38.0"}
+{"time":"2026-07-10 23:49:08","name":"minio/minio:RELEASE.2025-05-24T17-08-30Z","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/minio_minio:RELEASE.2025-05-24T17-08-30Z"}
