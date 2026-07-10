@@ -20,4 +20,5 @@ images:
   # - sonarsource/sonar-scanner-cli
   # - cloakhq/cloakbrowser:0.4.8
   # - authentik/server:2026.5.4
-  - busybox:1.38.0
+  # - busybox:1.38.0
+  - minio/minio:RELEASE.2025-05-24T17-08-30Z
