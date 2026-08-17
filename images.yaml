@@ -23,4 +23,5 @@ images:
   # - busybox:1.38.0
   # - minio/minio:RELEASE.2025-05-24T17-08-30Z
   # - calciumion/new-api
-  - postgres:15
+  # - postgres:15
+  - redis:latest
