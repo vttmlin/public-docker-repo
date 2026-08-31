@@ -24,3 +24,4 @@
 {"time":"2026-08-17 10:40:42","name":"calciumion/new-api","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/calciumion_new-api:latest"}
 {"time":"2026-08-17 10:48:42","name":"postgres:15","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/postgres:15"}
 {"time":"2026-08-17 10:50:43","name":"redis:latest","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/redis:latest"}
+{"time":"2026-08-31 16:45:19","name":"docker.io/clickhouse/clickhouse-server:25.8.33.6","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/docker_io_clickhouse_clickhouse-server:25.8.33.6"}
