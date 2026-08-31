@@ -24,4 +24,5 @@ images:
   # - minio/minio:RELEASE.2025-05-24T17-08-30Z
   # - calciumion/new-api
   # - postgres:15
-  - redis:latest
+  # - redis:latest
+  - docker.io/clickhouse/clickhouse-server:25.8.33.6
