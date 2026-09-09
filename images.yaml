@@ -25,4 +25,5 @@ images:
   # - calciumion/new-api
   # - postgres:15
   # - redis:latest
-  - docker.io/clickhouse/clickhouse-server:25.8.33.6
+  # - docker.io/clickhouse/clickhouse-server:25.8.33.6
+  - nats:2.14.6
