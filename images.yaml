@@ -29,4 +29,5 @@ images:
   # - nats:2.14.6
   # - hhk0571/clash-for-linux:1.6.5
   # - quay.io/coreos/etcd:v3.6.11
-  - gitlab/gitlab-ce:19.2.7-ce.0
+  # - gitlab/gitlab-ce:19.2.7-ce.0
+  - elasticsearch:9.5.3
