@@ -28,3 +28,4 @@
 {"time":"2026-09-09 15:15:45","name":"nats:2.14.6","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/nats:2.14.6"}
 {"time":"2026-09-17 21:20:11","name":"hhk0571/clash-for-linux:1.6.5","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/hhk0571_clash-for-linux:1.6.5"}
 {"time":"2026-09-20 17:01:18","name":"quay.io/coreos/etcd:v3.6.11","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/quay_io_coreos_etcd:v3.6.11"}
+{"time":"2026-09-29 11:57:35","name":"elasticsearch:9.5.3","proxy_name":"registry.cn-hangzhou.aliyuncs.com/tmdaq/elasticsearch:9.5.3"}
