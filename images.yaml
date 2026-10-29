@@ -31,4 +31,5 @@ images:
   # - quay.io/coreos/etcd:v3.6.11
   # - gitlab/gitlab-ce:19.2.7-ce.0
   # - elasticsearch:9.5.3
-  - xhofe/alist:v3.66.0-aio
+  # - xhofe/alist:v3.66.0-aio
+  - openlistteam/openlist:v4.2.9-aio
